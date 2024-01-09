@@ -1,4 +1,4 @@
-package com.football.view.fifa.util.idmodule
+package com.example.recoffeemenu.util.idmodule
 
 import android.content.Context
 import android.content.SharedPreferences
