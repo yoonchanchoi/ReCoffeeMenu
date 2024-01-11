@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.recoffeemenu.model.Coffee
 import com.example.recoffeemenu.model.LocalJson
+import com.example.recoffeemenu.network.repository.CoffeeDataSource
+import com.example.recoffeemenu.network.repository.CoffeeDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,13 +30,32 @@ class LocalModule {
         return context.getSharedPreferences(context.packageName+ "_preferences", Context.MODE_PRIVATE)
     }
 
+
     @Singleton
     @Provides
     fun provideLocalData(
         @ApplicationContext context: Context
-    ): LocalJson {
-        return LocalJson(context.assets.open("menu.json").reader().readText())
+    ): CoffeeDataSource {
+        return CoffeeDataSourceImpl(JSONObject(context.assets.open("menu.json").reader().readText())
+        )
     }
+
+//    @Singleton
+//    @Provides
+//    fun provideLocalData(
+//        @ApplicationContext context: Context
+//    ): JSONObject {
+//        return JSONObject(context.assets.open("menu.json").reader().readText()
+//        )
+//    }
+
+//    @Singleton
+//    @Provides
+//    fun provideLocalData(
+//        @ApplicationContext context: Context
+//    ): LocalJson {
+//        return LocalJson(context.assets.open("menu.json").reader().readText())
+//    }
 
 //    @Singleton
 //    @Provides
