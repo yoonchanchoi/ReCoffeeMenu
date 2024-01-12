@@ -5,7 +5,7 @@ import io.reactivex.Single
 
 interface CoffeeDataSource {
 
-    fun requestAllCoffee(): Single<ArrayList<Coffee>>
+    fun requestAllCoffee(): ArrayList<Coffee>
 }
 
 
