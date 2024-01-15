@@ -1,8 +1,8 @@
 package com.example.recoffeemenu.util.idmodule
 
 import android.content.Context
-import com.example.recoffeemenu.network.repository.CoffeeDataSource
-import com.example.recoffeemenu.network.repository.CoffeeDataSourceImpl
+import com.example.recoffeemenu.network.repository.CoffeeRepository
+import com.example.recoffeemenu.network.repository.CoffeeRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +19,8 @@ class NetworkProviderModule {
     @Provides
     fun provideLocalData(
         @ApplicationContext context: Context
-    ): CoffeeDataSource {
-        return CoffeeDataSourceImpl(JSONObject(context.assets.open("menu.json").reader().readText()))
+    ): CoffeeRepository {
+        return CoffeeRepositoryImpl(JSONObject(context.assets.open("menu.json").reader().readText()))
     }
 }
 

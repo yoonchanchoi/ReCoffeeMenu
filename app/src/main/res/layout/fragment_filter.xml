@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/top_filter_style"
-    tools:context=".fragment.FilterFragment">
+    tools:context=".ui.fragment.FilterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_top"

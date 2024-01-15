@@ -1,4 +1,4 @@
-package com.example.recoffeemenu.model
+package com.example.recoffeemenu.network.model
 
 import java.io.Serializable
 

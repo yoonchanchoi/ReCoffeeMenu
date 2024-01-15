@@ -1,7 +1,7 @@
 package com.example.recoffeemenu.util.idmodule
 
-import com.example.recoffeemenu.network.repository.CoffeeDataSource
-import com.example.recoffeemenu.network.repository.CoffeeDataSourceImpl
+import com.example.recoffeemenu.network.repository.CoffeeRepository
+import com.example.recoffeemenu.network.repository.CoffeeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,6 +14,6 @@ abstract class RespositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindRepository(CoffeeDataSourceImpl: CoffeeDataSourceImpl): CoffeeDataSource
+    abstract fun bindRepository(coffeeRepositoryImpl: CoffeeRepositoryImpl): CoffeeRepository
 
 }
