@@ -1,13 +1,16 @@
 package com.example.recoffeemenu.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.recoffeemenu.base.BaseViewModel
 import com.example.recoffeemenu.network.model.CoffeeCategoryListResult
-import com.example.recoffeemenu.network.model.FilterData
 import com.example.recoffeemenu.network.repository.CoffeeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -23,9 +26,16 @@ class MainViewModel @Inject constructor(
 
 
     fun requestAllCoffee(){
-//        coffeeRepository.requestAllCoffee()
+        Single.just(coffeeRepository.requestAllCoffee())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                Log.e("cyc", "전체 커피 통신 성공")
+                _arrayCoffeeCategoryList.postValue(it)
+            }, {
+                Log.e("cyc", "전체 커피 통신 실패 : ${it}")
+            })
+            .addTo(disposable)
     }
-
 
 }
 

@@ -4,24 +4,31 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.recoffeemenu.databinding.ActivityMainBinding
+import com.example.recoffeemenu.network.model.CoffeeCategoryListResult
+import com.example.recoffeemenu.network.model.CoffeeResult
+import com.example.recoffeemenu.viewmodel.MainViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
+
+
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var arrayCoffeeCategoryListResult: ArrayList<CoffeeCategoryListResult>
+    private lateinit var coffeeCategoryListResult: ArrayList<CoffeeResult>
 
+    private val adapter = PageAdapter(supportFragmentManager)
     private val viewModel: MainViewModel by viewModels()
-
+    private var category: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-
 //        Solution().solution("hello", 3)
     }
 
@@ -32,17 +39,28 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun initData() {
+        viewModel.requestAllCoffee()
     }
 
-    private fun initObserve(){
-
+    private fun initObserve() {
+        viewModel.arrayCoffeeCategoryList.observe(this) {
+//            arrayCoffeeCategoryListResult=it
+            it.forEach { coffeeCategoryListResult ->
+                val coffeeListFragment = CoffeeListFragment().apply {
+                    this.fragCategory = coffeeCategoryListResult.category
+                    coffeeCategoryListResult.coffeeList?.let {  arrayCoffeeResult->
+                        this.dataList = arrayCoffeeResult
+                    }
+                }
+                adapter.fragmentList.add(coffeeListFragment)
+            }
+        }
     }
 
     private fun initListener() {
 
     }
 }
-
 
 
 //@AndroidEntryPoint

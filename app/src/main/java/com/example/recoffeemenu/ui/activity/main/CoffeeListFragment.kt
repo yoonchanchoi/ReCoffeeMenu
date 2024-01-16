@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.recoffeemenu.databinding.FragmentCoffeeListBinding
+import com.example.recoffeemenu.network.model.CoffeeResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CoffeeListFragment :Fragment(){
 
     private lateinit var binding:FragmentCoffeeListBinding
+    var dataList: ArrayList<CoffeeResult> = arrayListOf()
+    var fragCategory: String = ""
     override fun onCreateView(
         inflater:LayoutInflater,container:ViewGroup?,
         savedInstanceState:Bundle?
