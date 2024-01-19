@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
+        binding.vp.adapter = adapter
+        binding.tlMenu.setupWithViewPager(binding.vp)
         viewModel.requestAllCoffee()
     }
 
