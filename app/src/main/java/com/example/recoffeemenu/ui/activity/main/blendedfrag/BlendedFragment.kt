@@ -1,4 +1,4 @@
-package com.example.recoffeemenu.ui.activity.main.espressofrag
+package com.example.recoffeemenu.ui.activity.main.blendedfrag
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,20 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.recoffeemenu.R
-import com.example.recoffeemenu.databinding.FragmentColdBrewBinding
-import com.example.recoffeemenu.databinding.FragmentEspressoBinding
+import com.example.recoffeemenu.databinding.FragmentBlendedBinding
+import com.example.recoffeemenu.databinding.FragmentBroodBinding
 import com.example.recoffeemenu.network.model.CoffeeResult
 
 
-class EspressoFragment : Fragment() {
-    private lateinit var binding: FragmentEspressoBinding
+class BlendedFragment : Fragment() {
+    private lateinit var binding: FragmentBlendedBinding
     var dataList: ArrayList<CoffeeResult> = arrayListOf()
     var fragCategory: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEspressoBinding.inflate(inflater, container, false)
+        binding = FragmentBlendedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
