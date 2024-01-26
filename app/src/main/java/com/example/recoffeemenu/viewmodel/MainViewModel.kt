@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.recoffeemenu.base.BaseViewModel
 import com.example.recoffeemenu.network.model.CoffeeCategoryListResult
 import com.example.recoffeemenu.network.repository.CoffeeRepository
+import com.example.recoffeemenu.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -17,25 +18,100 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val coffeeRepository: CoffeeRepository
-) : BaseViewModel(){
+) : BaseViewModel() {
 
 
     private val _arrayCoffeeCategoryList = MutableLiveData<ArrayList<CoffeeCategoryListResult>>()
     val arrayCoffeeCategoryList: LiveData<ArrayList<CoffeeCategoryListResult>>
         get() = _arrayCoffeeCategoryList
 
+    private val _coldBrewList = MutableLiveData<CoffeeCategoryListResult>()
+    val coldBrewList: LiveData<CoffeeCategoryListResult>
+        get() = _coldBrewList
 
-    fun requestAllCoffee(){
-        Single.just(coffeeRepository.requestAllCoffee())
+    private val _broodList = MutableLiveData<CoffeeCategoryListResult>()
+    val broodList: LiveData<CoffeeCategoryListResult>
+        get() = _broodList
+
+    private val _espressoList = MutableLiveData<CoffeeCategoryListResult>()
+    val espressoList: LiveData<CoffeeCategoryListResult>
+        get() = _espressoList
+
+    private val _frappuccinoList = MutableLiveData<CoffeeCategoryListResult>()
+    val frappuccinoList: LiveData<CoffeeCategoryListResult>
+        get() = _frappuccinoList
+
+    private val _blendedList = MutableLiveData<CoffeeCategoryListResult>()
+    val blendedList: LiveData<CoffeeCategoryListResult>
+        get() = _blendedList
+
+    private val _fizzoList = MutableLiveData<CoffeeCategoryListResult>()
+    val fizzoList: LiveData<CoffeeCategoryListResult>
+        get() = _fizzoList
+
+    private val _etcList = MutableLiveData<CoffeeCategoryListResult>()
+    val etcList: LiveData<CoffeeCategoryListResult>
+        get() = _etcList
+
+    private val _juiceList = MutableLiveData<CoffeeCategoryListResult>()
+    val juiceList: LiveData<CoffeeCategoryListResult>
+        get() = _juiceList
+
+//    fun requestAllCoffee() {
+//        Single.just(coffeeRepository.requestAllCoffee())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                Log.e("cyc", "전체 커피 통신 성공")
+//                _arrayCoffeeCategoryList.postValue(it)
+//            }, {
+//                Log.e("cyc", "전체 커피 통신 실패 : ${it}")
+//            })
+//            .addTo(disposable)
+//    }
+
+    fun requerequestAllCoffee() {
+        Observable.fromIterable(coffeeRepository.requestAllCoffee())
             .subscribeOn(Schedulers.io())
+            .concatMapSingle { setCoffeeCategoryListResult(it) }
+            .toList()
+            .observeOn(Schedulers.io())
             .subscribe({
-                Log.e("cyc", "전체 커피 통신 성공")
-                _arrayCoffeeCategoryList.postValue(it)
+                _arrayCoffeeCategoryList.postValue(it as ArrayList<CoffeeCategoryListResult>)
             }, {
                 Log.e("cyc", "전체 커피 통신 실패 : ${it}")
             })
             .addTo(disposable)
     }
+
+    private fun setCoffeeCategoryListResult(coffeeCategoryListResult: CoffeeCategoryListResult): Single<CoffeeCategoryListResult> {
+        when (coffeeCategoryListResult.category) {
+            Constants.COLD_BREW -> _coldBrewList.postValue(coffeeCategoryListResult)
+            Constants.BROOD -> _broodList.postValue(coffeeCategoryListResult)
+            Constants.ESPRESSO -> _espressoList.postValue(coffeeCategoryListResult)
+            Constants.FRAPPUCCINO -> _frappuccinoList.postValue(coffeeCategoryListResult)
+            Constants.BLENDED -> _blendedList.postValue(coffeeCategoryListResult)
+            Constants.FIZZO -> _fizzoList.postValue(coffeeCategoryListResult)
+            Constants.ETC -> _etcList.postValue(coffeeCategoryListResult)
+            Constants.JUICE -> _juiceList.postValue(coffeeCategoryListResult)
+        }
+        return Single.just(coffeeCategoryListResult)
+    }
+//    fun requestCoffee(arrayCoffeeCategoryListResult: CoffeeCategoryListResult){
+//        Observable.fromIterable()
+//            .subscribeOn(Schedulers.io())
+//            .concatMapSingle {
+//                fifaManager.requestMatchInfo(it)
+//            }
+//            .toList()
+//            .observeOn(Schedulers.io())
+//            .subscribe({
+//                _matchDTOList.postValue(it as ArrayList<MatchMetaDataResult>)
+//            },{
+//                Log.e("cyc", "각각의 커피 정보 실패 ${it}")
+//            })
+//            .addTo(disposable)
+//    }
+
 
 }
 
