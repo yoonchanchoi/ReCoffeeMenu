@@ -3,6 +3,8 @@ package com.example.recoffeemenu.ui.activity.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.recoffeemenu.databinding.ActivityMainBinding
 import com.example.recoffeemenu.network.model.CoffeeCategoryListResult
 import com.example.recoffeemenu.network.model.CoffeeResult
@@ -19,8 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var arrayCoffeeCategoryListResult: ArrayList<CoffeeCategoryListResult>
     private lateinit var coffeeCategoryListResult: ArrayList<CoffeeResult>
+    private lateinit var viewPageAdapter: ViewPageAdapter
 
-    private val adapter = PageAdapter(supportFragmentManager)
     private val viewModel: MainViewModel by viewModels()
     private var category: String = ""
 
@@ -39,27 +41,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        binding.vp.adapter = adapter
-        binding.tlMenu.setupWithViewPager(binding.vp)
-        viewModel.requestAllCoffee()
+        setViewPageAdapter()
     }
 
+
+
     private fun initObserve() {
-        viewModel.arrayCoffeeCategoryList.observe(this) {
-//            arrayCoffeeCategoryListResult=it
-            it.forEach { coffeeCategoryListResult ->
-                val coffeeListFragment = CoffeeListFragment().apply {
-                    this.fragCategory = coffeeCategoryListResult.category
-                    coffeeCategoryListResult.coffeeList?.let {  arrayCoffeeResult->
-                        this.dataList = arrayCoffeeResult
-                    }
-                }
-                adapter.fragmentList.add(coffeeListFragment)
-            }
-        }
+//        viewModel.arrayCoffeeCategoryList.observe(this) {
+////            arrayCoffeeCategoryListResult=it
+//            it.forEach { coffeeCategoryListResult ->
+//                val coffeeListFragment = CoffeeListFragment().apply {
+//                    this.fragCategory = coffeeCategoryListResult.category
+//                    coffeeCategoryListResult.coffeeList?.let {  arrayCoffeeResult->
+//                        this.dataList = arrayCoffeeResult
+//                    }
+//                }
+//                adapter.fragmentList.add(coffeeListFragment)
+//            }
+//        }
     }
 
     private fun initListener() {
+//        matchOpponentPlayerAdapter = MatchPlayerAdapter(this,this,  matchPlayerDTOList)
+//        val searchLinearLayoutManager =
+//            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//        searchLinearLayoutManager.stackFromEnd = true // 키보드 열릴시 recycclerview 스크롤 처리
+//        binding.rvOpponent.apply {
+//            layoutManager = searchLinearLayoutManager
+//            adapter = matchOpponentPlayerAdapter
+//        }
+    }
+
+
+    private fun setViewPageAdapter() {
 
     }
 }
