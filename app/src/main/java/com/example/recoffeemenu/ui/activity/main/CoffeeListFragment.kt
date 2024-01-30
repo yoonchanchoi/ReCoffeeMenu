@@ -1,16 +1,63 @@
-//package com.example.recoffeemenu.ui.activity.main
+package com.example.recoffeemenu.ui.activity.main
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
+import com.example.recoffeemenu.databinding.FragmentCoffeeListBinding
+import com.example.recoffeemenu.network.model.CoffeeResult
+import dagger.hilt.android.AndroidEntryPoint
+
+
+
+typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
+
+abstract class CoffeeListFragment<VB: ViewBinding>(
+    private val inflate: Inflate<VB>
+) : Fragment() {
+    private var _binding: VB? = null
+    val binding get() = _binding!!
+    var fragCategory: String = ""
+    var dataList: ArrayList<CoffeeResult> = arrayListOf()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = inflate.invoke(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
+
+
+
+//abstract class CoffeeListFragment<VB : ViewBinding> : Fragment() {
 //
-//import android.os.Bundle
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import androidx.fragment.app.Fragment
-//import com.example.recoffeemenu.databinding.FragmentCoffeeListBinding
-//import com.example.recoffeemenu.network.model.CoffeeResult
-//import dagger.hilt.android.AndroidEntryPoint
+//    var binding: VB? = null
 //
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        binding = getViewBinding(view)
+//        init()
+//    }
+//
+//    abstract fun getViewBinding(view: View): VB
+//
+//    abstract fun init()
+//
+//}
+
 //@AndroidEntryPoint
-//class CoffeeListFragment :Fragment(){
+//abstract class CoffeeListFragment :Fragment(){
 //
 //    private lateinit var binding:FragmentCoffeeListBinding
 //    var dataList: ArrayList<CoffeeResult> = arrayListOf()
@@ -19,7 +66,7 @@
 //        inflater:LayoutInflater,container:ViewGroup?,
 //        savedInstanceState:Bundle?
 //    ):View{
-//        binding=FragmentCoffeeListBinding.inflate(inflater,container,false)
+//        binding = FragmentCoffeeListBinding.inflate(inflater,container,false)
 //        return binding.root
 //    }
 //
@@ -27,25 +74,11 @@
 //        super.onViewCreated(view,savedInstanceState)
 //        init()
 //    }
+//    abstract fun init()
 //
-//    private fun init(){
-//        initData()
-//        initObserve()
-//        initListener()
 //
-//    }
-//    private fun initData(){
-//    }
-//
-//    private fun initObserve(){
-//
-//    }
-//
-//    private fun initListener(){
-//
-//    }
 //}
-//
+
 ////class CoffeeListFragment : Fragment() {
 ////
 ////    private lateinit var binding: FragmentCoffeeListBinding

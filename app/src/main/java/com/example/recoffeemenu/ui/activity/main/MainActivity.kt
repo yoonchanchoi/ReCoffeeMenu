@@ -3,12 +3,15 @@ package com.example.recoffeemenu.ui.activity.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.recoffeemenu.databinding.ActivityMainBinding
 import com.example.recoffeemenu.network.model.CoffeeCategoryListResult
 import com.example.recoffeemenu.network.model.CoffeeResult
+import com.example.recoffeemenu.ui.activity.main.blendedfrag.BlendedFragment
 import com.example.recoffeemenu.viewmodel.MainViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,11 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var arrayCoffeeCategoryListResult: ArrayList<CoffeeCategoryListResult>
     private lateinit var coffeeCategoryListResult: ArrayList<CoffeeResult>
     private lateinit var viewPageAdapter: ViewPageAdapter
+    private val arrayListFragment: ArrayList<Fragment> = arrayListOf()
 
     private val viewModel: MainViewModel by viewModels()
     private var category: String = ""
@@ -41,39 +44,95 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        setViewPageAdapter()
+        viewModel.requestAllCoffee()
     }
-
 
 
     private fun initObserve() {
-//        viewModel.arrayCoffeeCategoryList.observe(this) {
-////            arrayCoffeeCategoryListResult=it
-//            it.forEach { coffeeCategoryListResult ->
-//                val coffeeListFragment = CoffeeListFragment().apply {
-//                    this.fragCategory = coffeeCategoryListResult.category
-//                    coffeeCategoryListResult.coffeeList?.let {  arrayCoffeeResult->
-//                        this.dataList = arrayCoffeeResult
-//                    }
-//                }
-//                adapter.fragmentList.add(coffeeListFragment)
-//            }
-//        }
+
+        viewModel.blendedList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.broodList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.coldBrewList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.espressoList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.etcList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.fizzoList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.frappuccinoList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+        viewModel.juiceList.observe(this) {
+            arrayListFragment.add(BlendedFragment().apply {
+                it.coffeeList?.let { arrayListCooffeeResult ->
+                    dataList = arrayListCooffeeResult
+                }
+                category = it.category
+            })
+        }
+
+        viewModel.arrayCoffeeCategoryList.observe(this) {
+            setViewPageAdapter(arrayListFragment)
+        }
     }
 
     private fun initListener() {
-//        matchOpponentPlayerAdapter = MatchPlayerAdapter(this,this,  matchPlayerDTOList)
-//        val searchLinearLayoutManager =
-//            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        searchLinearLayoutManager.stackFromEnd = true // 키보드 열릴시 recycclerview 스크롤 처리
-//        binding.rvOpponent.apply {
-//            layoutManager = searchLinearLayoutManager
-//            adapter = matchOpponentPlayerAdapter
-//        }
+
     }
 
 
-    private fun setViewPageAdapter() {
+    private fun setViewPageAdapter(fragmentList: ArrayList<Fragment>) {
+        viewPageAdapter = ViewPageAdapter(fragmentList, this)
+
+        TabLayoutMediator(binding.tlMenu, binding.vp) { tab, position ->
+            tab.text = arrayCoffeeCategoryListResult[position].category
+        }.attach()
+
+        binding.vp.adapter = viewPageAdapter
 
     }
 }

@@ -69,7 +69,7 @@ class MainViewModel @Inject constructor(
 //            .addTo(disposable)
 //    }
 
-    fun requerequestAllCoffee() {
+    fun requestAllCoffee() {
         Observable.fromIterable(coffeeRepository.requestAllCoffee())
             .subscribeOn(Schedulers.io())
             .concatMapSingle { setCoffeeCategoryListResult(it) }
